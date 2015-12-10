@@ -32,18 +32,18 @@ func (lexer *Lexer) Backup() {
 }
 
 /*
+CurrentCharacter returns the current character at the position tracker
+*/
+func (lexer *Lexer) CurrentCharacter() string {
+	return lexer.Input[lexer.Pos : lexer.Pos+1]
+}
+
+/*
 CurrentInput returns a slice of the current input from the current lexer start position
 to the current position.
 */
 func (lexer *Lexer) CurrentInput() string {
 	return lexer.Input[lexer.Start:lexer.Pos]
-}
-
-/*
-CurrentCharacter returns the current character at the position tracker
-*/
-func (lexer *Lexer) CurrentCharacter() string {
-	return lexer.Input[lexer.Pos : lexer.Pos+1]
 }
 
 /*
