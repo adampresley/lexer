@@ -1,9 +1,5 @@
 package lexer
 
-import (
-	"fmt"
-)
-
 /*
 A Token represents a parsed item in a source input. A token has a type
 and a value. These are used to determine what to do next.
@@ -26,5 +22,5 @@ func (token Token) String() string {
 		return (token.Value).(string)
 	}
 
-	return fmt.Sprintf("%q", token.Value)
+	return (token.Value).(string)
 }
