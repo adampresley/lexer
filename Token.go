@@ -13,6 +13,14 @@ func (token Token) IsEmpty() bool {
 	return token.Type == 0 && token.Value == nil
 }
 
+func (token Token) IsEOF() bool {
+	return token.Type == TOKEN_EOF
+}
+
+func (token Token) IsError() bool {
+	return token.Type == TOKEN_ERROR
+}
+
 func (token Token) String() string {
 	switch token.Type {
 	case TOKEN_EOF:
