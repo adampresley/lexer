@@ -169,6 +169,19 @@ func (lexer *Lexer) Peek() rune {
 }
 
 /*
+PeekCharacters returns what the next set of characters in the input
+stream is.
+*/
+func (lexer *Lexer) PeekCharacters(numCharacters int) string {
+	end := lexer.Pos + numCharacters
+	if end > utf8.RuneCountInString(lexer.Input) {
+		end = utf8.RuneCountInString(lexer.Input)
+	}
+
+	return lexer.Input[lexer.Pos:end]
+}
+
+/*
 Run starts the lexical analysis and feeding tokens into the
 token channel.
 */
