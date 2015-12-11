@@ -63,6 +63,17 @@ func (lexer *Lexer) Emit(tokenType TokenType) {
 }
 
 /*
+EmitWithTransform allows you to put a typed-token onto the channel. The value
+is read from the input based on the current lexer position, and then
+passed to a provided transform function. That is then placed on the token
+channel.
+*/
+func (lexer *Lexer) EmitWithTransform(tokenType TokenType, transformFn TokenValueTransformer) {
+	lexer.Tokens <- Token{Type: tokenType, Value: transformFn(lexer.Input[lexer.Start:lexer.Pos])}
+	lexer.Start = lexer.Pos
+}
+
+/*
 Errorf returns a token with error information. This conforms to the
 LexFn type
 */
