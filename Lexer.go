@@ -54,6 +54,14 @@ func (lexer *Lexer) Dec() {
 }
 
 /*
+Discard throws away count characters by skipping right over them.
+*/
+func (lexer *Lexer) Discard(count int) {
+	lexer.Start += count
+	lexer.Pos = lexer.Start
+}
+
+/*
 Emit puts a token onto the token channel. The value of this token is
 read from the input based on the current lexer position.
 */
@@ -95,13 +103,13 @@ func (lexer *Lexer) Ignore() {
 }
 
 /*
-Inc move the position tracker forward one character
+Inc move the position tracker forward x characters
 */
-func (lexer *Lexer) Inc() {
-	lexer.Pos++
+func (lexer *Lexer) Inc(count int) {
+	lexer.Pos += count
 
 	if lexer.Pos > utf8.RuneCountInString(lexer.Input) {
-		lexer.Pos--
+		lexer.Pos -= (lexer.Pos + count) - utf8.RuneCountInString(lexer.Input)
 	}
 }
 
@@ -231,7 +239,7 @@ func (lexer *Lexer) SkipWhitespace() {
 			break
 		}
 
-		if ch == EOF {
+		if ch == EOF || lexer.Pos >= utf8.RuneCountInString(lexer.Input) {
 			lexer.Emit(TOKEN_EOF)
 			break
 		}
